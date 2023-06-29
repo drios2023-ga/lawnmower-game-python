@@ -92,13 +92,18 @@ def buyATool(tool):
     global buyTool;
     nextTool = tool + 1;
 
-    if tool < 4 and toolBox[nextTool]['inTheBox'] == 'false' and savings != toolBox[nextTool]['cost']:
+    # print(tool);
+    # print(savings);
+    # print(toolBox[nextTool]['cost']);
+    # print(savings >= toolBox[nextTool]['cost']);
+
+    if tool < 4 and toolBox[nextTool]['inTheBox'] == 'false' and savings >= toolBox[nextTool]['cost']:
         print("You have " + str(savings) + " dollars in your savings. Would you like to buy a " + toolBox[nextTool]['tool'] + "?:")
         buyTool = input("(y/n)");
 
-    if buyTool == 'y':
-        savings = savings - toolBox[nextTool]['cost'];
-        toolBox[nextTool]['inTheBox'] = 'true';    
+        if buyTool == 'y':
+            savings = savings - toolBox[nextTool]['cost'];
+            toolBox[nextTool]['inTheBox'] = 'true';    
 
 # function main() {
 
@@ -137,5 +142,44 @@ def buyATool(tool):
 # console.log("---------------------------------------------------------------");
 # }
 
+
+def main():
+
+    global savings;
+    global tool;
+    global toolList;
+
+    username = input('What is your name? ');
+    print('Your name is ' + username + ' and you are a landscaper!');
+
+    while savings < 1000 or toolBox[4]['inTheBox'] == 'false':
+        
+        #pick a tool to use
+        buildToolList();
+        print("You have " + str(savings) + " dollar(s) in your savings.\n")
+        print("Here are the tools in your toolbox. Which one would you like to use today?: ")
+        tool = int(input(""));
+
+        #confirm tool is in the box and increment savings
+        if toolBox[tool]['inTheBox'] == 'true':
+            incrementSavings(tool);
+            
+            #clear tool list
+            toolList = "";
+
+            #offer a chance to buy a tool
+            buyATool(tool);
+        
+            print("---------------------------------------------------------------");
+
+        else: 
+            print("Uh oh. You picked a tool that isn't in your toolbox.")
+            toolList = "";
+        
+    print("---------------------------------------------------------------");
+    print("Congrats! You earned " + str(savings) + " dollars! Now you can retire!");
+    print("---------------------------------------------------------------");
+    print("---------------------------THE END------------------------------");
+    print("---------------------------------------------------------------");
 
 main();
